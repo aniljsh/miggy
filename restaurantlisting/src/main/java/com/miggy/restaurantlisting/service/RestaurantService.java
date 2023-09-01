@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.miggy.restaurantlisting.dto.RestaurantDTO;
 import com.miggy.restaurantlisting.entity.RestaurantEntity;
-import com.miggy.restaurantlisting.mapper.RestaurantMapper;
+import com.miggy.restaurantlisting.mapper.RestaurantMapperUtil;
 import com.miggy.restaurantlisting.repo.RestaurantRepo;
 
 @Service
@@ -23,7 +23,7 @@ public class RestaurantService {
 		List<RestaurantEntity> restaurantEntities = restaurantRepo.findAll();
 
 		List<RestaurantDTO> list = restaurantEntities.stream()
-				.map(restaurantEntity -> RestaurantMapper.INSTANSE.mapRestaurantEntityToRestaurantDTO(restaurantEntity))
+				.map(restaurantEntity -> RestaurantMapperUtil.mapRestaurantEntityToRestaurantDTO(restaurantEntity))
 				.collect(Collectors.toList());
 
 		return list;
@@ -32,9 +32,9 @@ public class RestaurantService {
 
 	public RestaurantDTO createRestaurant(RestaurantDTO restaurantDTO) {
 
-		RestaurantEntity restaurantEntity = RestaurantMapper.INSTANSE.mapRestaurantDTOToRestaurantEntity(restaurantDTO);
+		RestaurantEntity restaurantEntity = RestaurantMapperUtil.mapRestaurantDTOToRestaurantEntity(restaurantDTO);
 		restaurantRepo.save(restaurantEntity);
-		return RestaurantMapper.INSTANSE.mapRestaurantEntityToRestaurantDTO(restaurantEntity);
+		return RestaurantMapperUtil.mapRestaurantEntityToRestaurantDTO(restaurantEntity);
 
 	}
 
@@ -42,7 +42,7 @@ public class RestaurantService {
 		Optional<RestaurantEntity> restaurantEntityOptional = restaurantRepo.findById(id);
 
 		if (restaurantEntityOptional.isPresent()) {
-			return RestaurantMapper.INSTANSE.mapRestaurantEntityToRestaurantDTO(restaurantEntityOptional.get());
+			return RestaurantMapperUtil.mapRestaurantEntityToRestaurantDTO(restaurantEntityOptional.get());
 		}
 
 		return null;
